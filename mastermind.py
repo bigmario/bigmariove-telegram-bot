@@ -87,8 +87,8 @@ dispatcher.add_handler(CommandHandler("start", start))
 dispatcher.add_handler(MessageHandler(Filters.text, get_word_info))
 # updater.start_polling()
 updater.start_webhook(
-    listen=os.environ.get("URL"),
-    port=int(os.environ.get("PORT", 5002)),
+    listen="0.0.0.0",
+    port=int(os.environ.get("PORT", 5001)),
     url_path=telegram_bot_token,
 )
 updater.bot.setWebhook(os.environ.get("URL") + telegram_bot_token)
