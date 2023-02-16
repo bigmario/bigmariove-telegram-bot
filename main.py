@@ -1,53 +1,36 @@
-from flask import Flask, request
-import telegram
-from app.credentials import bot_token, bot_user_name, URL
-from app.mastermind import get_response
+import os
+import requests
+from flask import Flask
 
 from app import create_app
-
-from app.config import Config
-
-global bot
-global TOKEN
-TOKEN = bot_token
-
-bot = telegram.Bot(token=TOKEN)
 
 
 app = create_app()
 
 
-@app.route("/{}".format(TOKEN), methods=["POST"])
-async def respond():
-    # retrieve the message in JSON and then transform it to Telegram object
-    update = telegram.Update.de_json(request.get_json(force=True), bot)
-
-    chat_id = update.message.chat.id
-    msg_id = update.message.message_id
-
-    # Telegram understands UTF-8, so encode text for unicode compatibility
-    text = update.message.text.encode("utf-8").decode()
-    print("got text message :", text)
-
-    response = get_response(text)
-    await bot.sendMessage(chat_id=chat_id, text=response, reply_to_message_id=msg_id)
-
-    return "ok"
-
-
-@app.route("/setwebhook", methods=["GET", "POST"])
-async def set_webhook():
-    s = await bot.setWebhook("{URL}{HOOK}".format(URL=URL, HOOK=TOKEN))
-    if s:
-        return "webhook setup ok"
-    else:
-        return "webhook setup failed"
-
-
 @app.route("/")
-def index():
-    return "."
+def get_info(word):
+
+    url = "https://api.dictionaryapi.dev/api/v2/entries/en/{}".format(word)
+
+    response = requests.get(url)
+
+    # return a custom response if an invalid word is provided
+    if response.status_code == 404:
+        error_response = (
+            "We are not able to provide any information about your word. Please confirm that the word is "
+            "spelled correctly or try the search again at a later time."
+        )
+        return error_response
+
+    data = response.json()[0]
+
+    # print(data)
+    return data
+
+
+# get_info("food")
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5001)
+    app.run()
