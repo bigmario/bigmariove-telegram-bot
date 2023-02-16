@@ -1,3 +1,4 @@
+import os
 import requests
 
 from app import create_app
@@ -31,3 +32,4 @@ def get_info(word):
 
 if __name__ == "__main__":
     app.run()
+    os.system("python mastermind.py")
