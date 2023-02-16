@@ -33,8 +33,7 @@ def get_word_info(update, context):
     # get the word the user provided
     word = word_info["word"]
 
-    # get the origin of the word
-    origin = word_info["origin"]
+    # get the meaning of the word
     meanings = "\n"
 
     synonyms = ""
