@@ -2,6 +2,6 @@ from .config import Config
 
 global_settings = Config()
 
-bot_token = global_settings.BOT_TOKEN  # "place your token here"
-bot_user_name = global_settings.BOT_USER_NAME  # "bot username"
-URL = global_settings.URL  # "the heroku app link that we will create later"
+bot_token = "AAHmm2muZ44PHfeuVmJQO4bJKYA4ic7Q5"  # "place your token here"
+bot_user_name = "bigmariove_bot"  # "bot username"
+URL = "https://bigmariove.pythonanywhere.com/"  # "the heroku app link that we will create later"
