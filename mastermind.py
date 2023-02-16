@@ -75,7 +75,13 @@ def get_word_info(update, context):
     # format the data into a string
     message = f"Word: {word}\n\nOrigin: {origin}\n{meanings}"
 
-    update.message.reply_text(message)
+    chat_id = update.effective_chat.id
+    context.bot.send_message(
+        chat_id=chat_id,
+        text=message,
+    )
+
+    # update.message.reply_text(message)
 
 
 # run the start function when the user invokes the /start command
