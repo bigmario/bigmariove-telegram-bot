@@ -6,7 +6,6 @@ from main import get_info
 
 telegram_bot_token = bot_token
 
-# updater = Updater(token=bot_token, use_context=True)
 updater = Updater(token=telegram_bot_token, use_context=True)
 dispatcher = updater.dispatcher
 
