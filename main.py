@@ -7,15 +7,17 @@ from app import create_app
 
 from app.config import Config
 
-global_settings = Config()
+global bot
+global TOKEN
+TOKEN = bot_token
 
-bot = telegram.Bot(token=global_settings.BOT_TOKEN)
+bot = telegram.Bot(token=TOKEN)
 
 
 app = create_app()
 
 
-@app.route("/{}".format(global_settings.BOT_TOKEN), methods=["POST"])
+@app.route("/{}".format(TOKEN), methods=["POST"])
 def respond():
     # retrieve the message in JSON and then transform it to Telegram object
     update = telegram.Update.de_json(request.get_json(force=True), bot)
@@ -35,7 +37,7 @@ def respond():
 
 @app.route("/setwebhook", methods=["GET", "POST"])
 def set_webhook():
-    s = bot.setWebhook("{URL}{HOOK}".format(URL=URL, HOOK=global_settings.BOT_TOKEN))
+    s = bot.setWebhook("{URL}{HOOK}".format(URL=URL, HOOK=TOKEN))
     if s:
         return "webhook setup ok"
     else:
