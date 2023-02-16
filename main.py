@@ -31,5 +31,5 @@ def get_info(word):
 
 
 if __name__ == "__main__":
-    # app.run()
-    os.system("python mastermind.py")
+    port = int(os.environ.get("PORT", 5001))
+    app.run()
