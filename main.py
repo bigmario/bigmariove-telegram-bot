@@ -18,7 +18,7 @@ app = create_app()
 
 
 @app.route("/{}".format(TOKEN), methods=["POST"])
-def respond():
+async def respond():
     # retrieve the message in JSON and then transform it to Telegram object
     update = telegram.Update.de_json(request.get_json(force=True), bot)
 
@@ -30,7 +30,7 @@ def respond():
     print("got text message :", text)
 
     response = get_response(text)
-    bot.sendMessage(chat_id=chat_id, text=response, reply_to_message_id=msg_id)
+    await bot.sendMessage(chat_id=chat_id, text=response, reply_to_message_id=msg_id)
 
     return "ok"
 
