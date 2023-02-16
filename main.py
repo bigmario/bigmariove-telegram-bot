@@ -31,5 +31,5 @@ def get_info(word):
 
 
 if __name__ == "__main__":
-    app.run()
+    # app.run()
     os.system("python mastermind.py")
