@@ -72,7 +72,7 @@ def get_word_info(update, context):
         meaning_counter += 1
 
     # format the data into a string
-    message = f"Word: {word}\n\nOrigin: {origin}\n{meanings}"
+    message = f"Word: {word}\n\n\n{meanings}"
 
     context.bot.send_message(
         text=message,
