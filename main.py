@@ -6,7 +6,7 @@ from app import create_app
 app = create_app()
 
 
-@app.route("/")
+@app.route("/<word>")
 def get_info(word):
 
     url = "https://api.dictionaryapi.dev/api/v2/entries/en/{}".format(word)
