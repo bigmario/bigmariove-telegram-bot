@@ -27,7 +27,7 @@ def get_word_info(update, context):
         model="text-davinci-003",
         prompt=update.message.text,
         temperature=0.6,
-        max_tokens=150,
+        max_tokens=500,
         top_p=1.0,
         frequency_penalty=1,
         presence_penalty=1,
