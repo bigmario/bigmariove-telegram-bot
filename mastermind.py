@@ -33,7 +33,7 @@ def get_word_info(update, context):
         presence_penalty=1,
     )
 
-    update.message.reply_text(response)
+    update.message.reply_text(response.choices[0].text)
 
 
 # run the start function when the user invokes the /start command
