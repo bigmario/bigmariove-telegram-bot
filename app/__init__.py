@@ -1,10 +1,2 @@
-from flask import Flask
-from .config import Config
-
-
-def create_app():
-    app = Flask(__name__)
-
-    app.config.from_object(Config)
-
-    return app
+from .mastermind import start, get_word_info
+from .credentials import bot_token, bot_user_name, host, openai_api_key, URL, port

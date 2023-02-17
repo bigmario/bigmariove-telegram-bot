@@ -1,35 +1,24 @@
-import os
-import requests
+from telegram.ext import Updater, MessageHandler, Filters
+from telegram.ext import CommandHandler
+from app import bot_token, port, URL, host
+from app import start, get_word_info
 
-from app import create_app
+telegram_bot_token = bot_token
 
-app = create_app()
-
-
-@app.route("/<word>")
-def get_info(word):
-
-    url = "https://api.dictionaryapi.dev/api/v2/entries/en/{}".format(word)
-
-    response = requests.get(url)
-
-    # return a custom response if an invalid word is provided
-    if response.status_code == 404:
-        error_response = (
-            "We are not able to provide any information about your word. Please confirm that the word is "
-            "spelled correctly or try the search again at a later time."
-        )
-        return error_response
-
-    data = response.json()[0]
-
-    # print(data)
-    return data
+updater = Updater(token=telegram_bot_token, use_context=True)
+dispatcher = updater.dispatcher
 
 
-# get_info("food")
+# run the start function when the user invokes the /start command
+dispatcher.add_handler(CommandHandler("start", start))
 
-
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5001))
-    app.run()
+# invoke the get_word_info function when the user sends a message
+# that is not a command.
+dispatcher.add_handler(MessageHandler(Filters.text, get_word_info))
+# updater.start_polling()
+updater.start_webhook(
+    listen=host,
+    port=int(port),
+    url_path=telegram_bot_token,
+    webhook_url=URL + telegram_bot_token,
+)
