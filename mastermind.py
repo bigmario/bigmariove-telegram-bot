@@ -26,13 +26,12 @@ def get_word_info(update, context):
 
     response = openai.Completion.create(
         model="text-davinci-003",
-        prompt="You: What have you been up to?\nFriend: Watching old movies.\nYou: Did you watch anything interesting?\nFriend:",
-        temperature=0.5,
-        max_tokens=60,
-        top_p=1.0,
-        frequency_penalty=0.5,
-        presence_penalty=0.0,
-        stop=["You:"],
+        prompt=update.message.text,
+        temperature=0.9,
+        max_tokens=150,
+        top_p=1,
+        frequency_penalty=0.0,
+        presence_penalty=0.6,
     )
 
     update.message.reply_text(response)
