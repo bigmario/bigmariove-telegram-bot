@@ -1,4 +1,7 @@
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 bot_token = os.environ.get("BOT_TOKEN")  # "place your token here"
 bot_user_name = os.environ.get("BOT_USER_NAME")  # "bot username"
