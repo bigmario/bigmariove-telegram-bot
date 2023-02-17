@@ -2,7 +2,7 @@ import os
 import openai
 from telegram.ext import Updater, MessageHandler, Filters
 from telegram.ext import CommandHandler
-from app.credentials import bot_token, openai_api_key
+from app.credentials import bot_token, openai_api_key, port, URL, host
 
 telegram_bot_token = bot_token
 
@@ -46,8 +46,8 @@ dispatcher.add_handler(CommandHandler("start", start))
 dispatcher.add_handler(MessageHandler(Filters.text, get_word_info))
 # updater.start_polling()
 updater.start_webhook(
-    listen="0.0.0.0",
-    port=int(os.environ.get("PORT", 5001)),
+    listen=host,
+    port=int(port),
     url_path=telegram_bot_token,
-    webhook_url=os.environ.get("URL") + telegram_bot_token,
+    webhook_url=URL + telegram_bot_token,
 )
