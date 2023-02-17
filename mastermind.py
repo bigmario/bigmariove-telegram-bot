@@ -2,8 +2,7 @@ import os
 import openai
 from telegram.ext import Updater, MessageHandler, Filters
 from telegram.ext import CommandHandler
-from app.credentials import bot_token
-from main import get_info
+from app.credentials import bot_token, openai_api_key
 
 telegram_bot_token = bot_token
 
@@ -22,17 +21,16 @@ def start(update, context):
 
 # obtain the information of the word provided and format before presenting.
 def get_word_info(update, context):
-    openai.api_key = os.getenv("OPENAI_API_KEY")
+    openai.api_key = openai_api_key
 
     response = openai.Completion.create(
         model="text-davinci-003",
-        prompt="You: What have you been up to?\nFriend: Watching old movies.\nYou: Did you watch anything interesting?\nFriend:",
-        temperature=0.5,
-        max_tokens=60,
+        prompt=update.message.text,
+        temperature=0.6,
+        max_tokens=150,
         top_p=1.0,
-        frequency_penalty=0.5,
-        presence_penalty=0.0,
-        stop=["You:"],
+        frequency_penalty=1,
+        presence_penalty=1,
     )
 
     update.message.reply_text(response)
