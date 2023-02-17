@@ -9,7 +9,7 @@ app = create_app()
 @app.route("/<word>")
 def get_info(word):
 
-    url = "https://api.dictionaryapi.dev/api/v2/entries/en/{}".format(word)
+    url = f"https://api.dictionaryapi.dev/api/v2/entries/en/{word}"
 
     response = requests.get(url)
 
