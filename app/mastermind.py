@@ -2,7 +2,7 @@ import os
 import openai
 from telegram.ext import Updater, MessageHandler, Filters
 from telegram.ext import CommandHandler
-from .credentials import bot_token, openai_api_key, port, URL, host
+from credentials import bot_token, openai_api_key, port, URL, host
 
 telegram_bot_token = bot_token
 
