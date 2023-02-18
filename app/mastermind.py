@@ -44,6 +44,8 @@ def start(update, context):
 # obtain the answer from ChatGpt.
 def get_word_info(update, context):
 
+    global prompt
+
     prompt += update.message.text
 
     answer, prompt = __create_generation()
