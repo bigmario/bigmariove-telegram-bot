@@ -1,11 +1,19 @@
 import openai
 from app.credentials import openai_api_key
 
+prompt = """The following is a conversation with an AI assistant. 
+            The assistant is helpful, creative, funny, clever, and very friendly.
+            Human: Hello, who are you?
+            AI: I am an AI created by OpenAI. How can I help you today?
+            Human:
+         """
 
-def __create_generation(update, prompt, start_sequence, restart_sequence):
+start_sequence = "\nAI:"
+restart_sequence = "\nHuman: "
+
+
+def __create_generation():
     openai.api_key = openai_api_key
-
-    prompt += update.message.text
 
     response = openai.Completion.create(
         model="text-davinci-003",
@@ -36,18 +44,8 @@ def start(update, context):
 # obtain the answer from ChatGpt.
 def get_word_info(update, context):
 
-    prompt = """The following is a conversation with an AI assistant. 
-            The assistant is helpful, creative, funny, clever, and very friendly.
-            Human: Hello, who are you?
-            AI: I am an AI created by OpenAI. How can I help you today?
-            Human:
-         """
+    prompt += update.message.text
 
-    start_sequence = "\nAI:"
-    restart_sequence = "\nHuman: "
-
-    answer, prompt = __create_generation(
-        update, prompt, start_sequence, restart_sequence
-    )
+    answer, prompt = __create_generation()
 
     update.message.reply_text(answer)
