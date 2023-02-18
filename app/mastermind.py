@@ -2,8 +2,10 @@ import openai
 from app.credentials import openai_api_key
 
 
-def __create_generation(prompt, start_sequence, restart_sequence):
+def __create_generation(update, prompt, start_sequence, restart_sequence):
     openai.api_key = openai_api_key
+
+    prompt += update.message.text
 
     response = openai.Completion.create(
         model="text-davinci-003",
@@ -44,8 +46,8 @@ def get_word_info(update, context):
     start_sequence = "\nAI:"
     restart_sequence = "\nHuman: "
 
-    prompt += update.message.text
-
-    answer, prompt = __create_generation(prompt, start_sequence, restart_sequence)
+    answer, prompt = __create_generation(
+        update, prompt, start_sequence, restart_sequence
+    )
 
     update.message.reply_text(answer)
