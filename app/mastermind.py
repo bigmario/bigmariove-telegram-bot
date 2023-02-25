@@ -2,7 +2,7 @@ import openai
 from app.credentials import openai_api_key
 
 prompt = """The following is a conversation with an AI assistant. 
-            The assistant is helpful, creative, funny, clever, and very friendly.
+            The assistant is helpful, articulate, eloquent, creative, funny, clever, and very friendly.
             Human: Hello, who are you?
             AI: I am an AI created by OpenAI. How can I help you today?
             Human:
@@ -18,11 +18,10 @@ def __create_generation():
     response = openai.Completion.create(
         model="text-davinci-003",
         prompt=prompt + start_sequence,
-        temperature=0.9,
+        temperature=0.8,
         max_tokens=3000,
-        top_p=1,
-        frequency_penalty=0,
-        presence_penalty=0.6,
+        frequency_penalty=0.5,
+        presence_penalty=0.0,
         stop=["\nHuman:", "\n"],
     )
 
