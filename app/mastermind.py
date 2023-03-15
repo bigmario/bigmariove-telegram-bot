@@ -16,7 +16,7 @@ def __create_generation():
     openai.api_key = openai_api_key
 
     response = openai.Completion.create(
-        model="gpt-3.5-turbo",
+        model="text-davinci-003",
         prompt=prompt + start_sequence,
         temperature=0.8,
         max_tokens=3000,
