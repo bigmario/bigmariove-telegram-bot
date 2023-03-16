@@ -1,34 +1,34 @@
 import openai
 from app.credentials import openai_api_key
 
-prompt = """The following is a conversation with an AI assistant. 
+prompt = """
+            The following is a conversation with an AI assistant. 
             The assistant is helpful, articulate, eloquent, creative, funny, clever, and very friendly.
-            Human: Hello, who are you?
-            AI: I am an AI created by OpenAI. How can I help you today?
-            Human:
          """
 
-start_sequence = "\nAI:"
-restart_sequence = "\nHuman: "
+messages = [
+    {
+        "role": "system",
+        "content": f"{prompt}",
+    },
+]
 
 
-def __create_generation():
+def __create_generation(content):
     openai.api_key = openai_api_key
 
-    response = openai.Completion.create(
-        model="text-davinci-003",
-        prompt=prompt + start_sequence,
-        temperature=0.8,
-        max_tokens=3000,
-        frequency_penalty=0.5,
-        presence_penalty=0.0,
-        stop=["\nHuman:", "\n"],
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=content,
+        temperature=0.9,
+        max_tokens=1000,
+        frequency_penalty=0,
+        presence_penalty=0.8,
     )
 
-    answer = response.choices[0]["text"]
-    new_prompt = prompt + start_sequence + answer + restart_sequence
-
-    return answer, new_prompt
+    answer = response.choices[0].message.content
+    messages.append({"role": "assistant", "content": answer})
+    return answer
 
 
 # set up the introductory statement for the bot when the /start command is invoked
@@ -36,17 +36,17 @@ def start(update, context):
     chat_id = update.effective_chat.id
     context.bot.send_message(
         chat_id=chat_id,
-        text="Hello there. Ask something and let ChatGpt answer it....",
+        text="Hello there. Ask something and let the Bot answer it....",
     )
 
 
 # obtain the answer from ChatGpt.
 def get_word_info(update, context):
 
-    global prompt
+    global messages
 
-    prompt += update.message.text
+    messages.append({"role": "user", "content": update.message.text})
 
-    answer, prompt = __create_generation()
+    answer = __create_generation(messages)
 
     update.message.reply_text(answer)
