@@ -40,7 +40,7 @@ def start(update, context):
     chat_id = update.effective_chat.id
     context.bot.send_message(
         chat_id=chat_id,
-        text="Hello there. Ask something and let the Bot answer it....",
+        text="Hello there. How can i help your coding adventure today?",
     )
 
 
