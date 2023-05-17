@@ -20,19 +20,49 @@ messages = [
 
 
 def __create_generation(content):
-    openai.api_key = openai_api_key
+    try:
+        openai.api_key = openai_api_key
 
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=content,
-        temperature=0.9,
-        max_tokens=1000,
-        frequency_penalty=0,
-        presence_penalty=0.8,
-    )
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=content,
+            temperature=0.9,
+            max_tokens=1000,
+            frequency_penalty=0,
+            presence_penalty=0.8,
+        )
 
-    answer = response.choices[0].message.content
-    messages.append({"role": "assistant", "content": answer})
+        answer = response.choices[0].message.content
+        messages.append({"role": "assistant", "content": answer})
+    except openai.error.Timeout as e:
+        #Handle timeout error, e.g. retry or log
+        answer = f"OpenAI API request timed out: {e}"
+        pass
+    except openai.error.APIError as e:
+        #Handle API error, e.g. retry or log
+        answer = f"OpenAI API returned an API Error: {e}"
+        pass
+    except openai.error.APIConnectionError as e:
+        #Handle connection error, e.g. check network or log
+        answer = f"OpenAI API request failed to connect: {e}"
+        pass
+    except openai.error.InvalidRequestError as e:
+        #Handle invalid request error, e.g. validate parameters or log
+        answer = f"OpenAI API request was invalid: {e}"
+        pass
+    except openai.error.AuthenticationError as e:
+        #Handle authentication error, e.g. check credentials or log
+        answer = f"OpenAI API request was not authorized: {e}"
+        pass
+    except openai.error.PermissionError as e:
+        #Handle permission error, e.g. check scope or log
+        answer = f"OpenAI API request was not permitted: {e}"
+        pass
+    except openai.error.RateLimitError as e:
+        #Handle rate limit error, e.g. wait or log
+        answer = f"OpenAI API request exceeded rate limit: {e}"
+        pass
+    
     return answer
 
 
