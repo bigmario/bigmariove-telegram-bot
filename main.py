@@ -12,15 +12,16 @@ dispatcher = updater.dispatcher
 # run the start function when the user invokes the /start command
 dispatcher.add_handler(CommandHandler("start", start))
 
-# invoke the get_word_info function when the user sends a message
-# that is not a command.
-dispatcher.add_handler(MessageHandler(Filters.text, get_word_info))
-
 # run the showMenu function when the user invokes the menu command
 dispatcher.add_handler(CommandHandler("menu", showMenu))
 
 # run the removeMenu function when the user invokes the remove-menu command
 dispatcher.add_handler(CommandHandler("remove", removeMenu))
+
+# invoke the get_word_info function when the user sends a message
+# that is not a command.
+dispatcher.add_handler(MessageHandler(Filters.text, get_word_info))
+
 
 # updater.start_polling()
 updater.start_webhook(
