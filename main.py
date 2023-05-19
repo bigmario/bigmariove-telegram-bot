@@ -20,7 +20,7 @@ dispatcher.add_handler(MessageHandler(Filters.text, get_word_info))
 dispatcher.add_handler(CommandHandler("menu", showMenu))
 
 # run the removeMenu function when the user invokes the remove-menu command
-dispatcher.add_handler(CommandHandler("remove-menu", removeMenu))
+dispatcher.add_handler(CommandHandler("remove", removeMenu))
 
 # updater.start_polling()
 updater.start_webhook(
