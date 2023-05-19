@@ -2,7 +2,7 @@ from telegram.update import Update
 from telegram.ext.callbackcontext import CallbackContext
 from telegram.replykeyboardmarkup import ReplyKeyboardMarkup
 from telegram.replykeyboardremove import ReplyKeyboardRemove
-from .mastermind import create_generation
+from .mastermind import create_generation, messages
 
 
 # set up the introductory statement for the bot when the /start command is invoked
