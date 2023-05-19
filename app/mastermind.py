@@ -1,4 +1,5 @@
 import openai
+
 from app.credentials import openai_api_key
 
 prompt = """
@@ -19,7 +20,7 @@ messages = [
 ]
 
 
-def __create_generation(content):
+def create_generation(content):
     try:
         openai.api_key = openai_api_key
 
@@ -35,53 +36,32 @@ def __create_generation(content):
         answer = response.choices[0].message.content
         messages.append({"role": "assistant", "content": answer})
     except openai.error.Timeout as e:
-        #Handle timeout error, e.g. retry or log
+        # Handle timeout error, e.g. retry or log
         answer = f"OpenAI API request timed out: {e}"
         pass
     except openai.error.APIError as e:
-        #Handle API error, e.g. retry or log
+        # Handle API error, e.g. retry or log
         answer = f"OpenAI API returned an API Error: {e}"
         pass
     except openai.error.APIConnectionError as e:
-        #Handle connection error, e.g. check network or log
+        # Handle connection error, e.g. check network or log
         answer = f"OpenAI API request failed to connect: {e}"
         pass
     except openai.error.InvalidRequestError as e:
-        #Handle invalid request error, e.g. validate parameters or log
+        # Handle invalid request error, e.g. validate parameters or log
         answer = f"OpenAI API request was invalid: {e}"
         pass
     except openai.error.AuthenticationError as e:
-        #Handle authentication error, e.g. check credentials or log
+        # Handle authentication error, e.g. check credentials or log
         answer = f"OpenAI API request was not authorized: {e}"
         pass
     except openai.error.PermissionError as e:
-        #Handle permission error, e.g. check scope or log
+        # Handle permission error, e.g. check scope or log
         answer = f"OpenAI API request was not permitted: {e}"
         pass
     except openai.error.RateLimitError as e:
-        #Handle rate limit error, e.g. wait or log
+        # Handle rate limit error, e.g. wait or log
         answer = f"OpenAI API request exceeded rate limit: {e}"
         pass
-    
+
     return answer
-
-
-# set up the introductory statement for the bot when the /start command is invoked
-def start(update, context):
-    chat_id = update.effective_chat.id
-    context.bot.send_message(
-        chat_id=chat_id,
-        text="Hello there. How can i help your coding adventure today?",
-    )
-
-
-# obtain the answer from ChatGpt.
-def get_word_info(update, context):
-
-    global messages
-
-    messages.append({"role": "user", "content": update.message.text})
-
-    answer = __create_generation(messages)
-
-    update.message.reply_text(answer)

@@ -1,7 +1,7 @@
 from telegram.ext import Updater, MessageHandler, Filters
 from telegram.ext import CommandHandler
 from app import bot_token, port, URL, host
-from app import start, get_word_info
+from app import start, get_word_info, showMenu, removeMenu
 
 telegram_bot_token = bot_token
 
@@ -15,6 +15,13 @@ dispatcher.add_handler(CommandHandler("start", start))
 # invoke the get_word_info function when the user sends a message
 # that is not a command.
 dispatcher.add_handler(MessageHandler(Filters.text, get_word_info))
+
+# run the showMenu function when the user invokes the menu command
+updater.dispatcher.add_handler(CommandHandler("menu", showMenu))
+
+# run the removeMenu function when the user invokes the remove-menu command
+updater.dispatcher.add_handler(CommandHandler("remove-menu", removeMenu))
+
 # updater.start_polling()
 updater.start_webhook(
     listen=host,
